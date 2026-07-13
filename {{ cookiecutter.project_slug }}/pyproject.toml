@@ -5,26 +5,33 @@ build-backend = "hatchling.build"
 [project]
 name = "{{ cookiecutter.project_name }}"
 dynamic = ["version"]
-description = ''
+description = '{{ cookiecutter.project_short_description }}'
 readme = "README.md"
-requires-python = ">=3.8"
-license = ""
-keywords = []
+requires-python = ">=3.10"
+license = "{{ cookiecutter.license }}"
+keywords = ["sysml", "sysmlv2", "mbse", "systems-engineering"]
 authors = [
   { name = "{{ cookiecutter.author }}", email = "{{ cookiecutter.email }}" },
 ]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 3 - Alpha",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "sysmlpy>=0.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "sysml-style>=0.3.7",
+  "pytest>=8.0",
+  "mypy>=1.0.0",
+  "pre-commit",
+]
 
 [project.urls]
 Documentation = "{{ cookiecutter.repo_url }}#readme"
@@ -34,15 +41,31 @@ Source = "{{ cookiecutter.repo_url }}"
 [tool.hatch.version]
 path = "src/{{ cookiecutter.project_slug }}/__about__.py"
 
-[tool.hatch.envs.sysml]
-path = ".venv/sysml"
+[tool.hatch.envs.default]
 dependencies = [
+  "sysmlpy>=0.35.0",
+  "sysml-style>=0.3.7",
   "jupyter",
+  "pytest>=8.0",
+  "mypy>=1.0.0",
+  "pre-commit",
 ]
 
-[tool.hatch.envs.sysml.scripts]
-update-kernel = "python3 ./sysml/jupyter-sysml-kernel/install.py --sys-prefix"
-create-user-sysml-symlink = "cd .venv/sysml/share/jupyter/kernels/sysml/sysml.library/Domain\\ Libraries && ln -sFf ../../../../../../../../sysml/models user_models"
+[tool.hatch.envs.default.scripts]
+check = "sysml-style check sysml/models/*.sysml"
+format = "sysml-style format sysml/models/*.sysml"
+format-check = "sysml-style format --check sysml/models/*.sysml"
+analyze = "python -m {{ cookiecutter.project_slug }}.examples.analyze_model"
+render = "python -m {{ cookiecutter.project_slug }}.examples.render_diagrams"
+test = "pytest {args:tests}"
+typecheck = "mypy --install-types --non-interactive {args:src/{{ cookiecutter.project_slug }} tests}"
+jupyter = "jupyter lab"
+
+[tool.sysml-style]
+max_line_length = 120
+indent_size = 4
+ignore = []
+naming_convention = "{{ cookiecutter.sysml_naming_convention }}"
 
 [tool.hatch.envs.types]
 extra-dependencies = [

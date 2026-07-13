@@ -3,21 +3,19 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "sysmlv2-python-cookiecutter"
-version = "0.1.0"
-description = ''
+name = "sysml-cookiecutter"
+version = "0.2.0"
+description = 'Cookiecutter template for SysML v2 projects with sysmlpy automation and sysml-style linting.'
 readme = "README.md"
-requires-python = ">=3.8"
-license = "MIT, LGPL, GPL"
-keywords = []
+requires-python = ">=3.10"
+license = "MIT"
+keywords = ["sysml", "sysmlv2", "cookiecutter", "template", "mbse"]
 authors = [
-  { name = "sean", email = "sean-smp4@protonmail.com" },
+  { name = "Jon R. Fox", email = "jon.fox@drfox.com" },
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -27,9 +25,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Documentation = "https://github.com/smp4/sysmlv2-python-cookiecutter#readme"
-Issues = "https://github.com/smp4/sysmlv2-python-cookiecutter/issues"
-Source = "https://github.com/smp4/sysmlv2-python-cookiecutter"
+Documentation = "https://github.com/jfox/sysml-cookiecutter#readme"
+Issues = "https://github.com/jfox/sysml-cookiecutter/issues"
+Source = "https://github.com/jfox/sysml-cookiecutter"
 
 
 [tool.hatch.envs.default]
@@ -66,7 +64,7 @@ extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/sysmlv2-python-cookiecutter tests}"
+check = "mypy --install-types --non-interactive {args:tests}"
 
 
 #### LINTING ####
@@ -85,16 +83,13 @@ parallel = true
 # default settings from hatch inititialisation
 
 [tool.coverage.run]
-source_pkgs = ["sysmlv2-python-cookiecutter", "tests"]
+source_pkgs = ["tests"]
 branch = true
 parallel = true
-omit = [
-  "src/ohb_python_cookiecutter/__about__.py",
-]
+omit = []
 
 [tool.coverage.paths]
-ohb_python_cookiecutter = ["src/ohb_python_cookiecutter", "*/ohb-python-cookiecutter/src/ohb_python_cookiecutter"]
-tests = ["tests", "*/ohb-python-cookiecutter/tests"]
+tests = ["tests", "*/sysml-cookiecutter/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
